@@ -1,0 +1,4 @@
+argparse
+PyPDF2
+secrets
+shutil
