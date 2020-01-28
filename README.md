@@ -7,6 +7,8 @@ of all the processed files in that directory. Furthermore, you can set a "mother
 
 I know it might be somewhat uncomfortable depending on what you are doing, but it was the way I needed it.
 
+Python 3.6 is required, since I got attached to f-strings and the secrets package dependency needs it too.
+
 ## TODO
 - Some error handling
 - Better directory handling
