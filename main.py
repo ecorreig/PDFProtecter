@@ -9,7 +9,7 @@ def main():
                         help='Input directory file')
     parser.add_argument('-m', '--mother_password', default=None,
                         help='Owner Password')
-    parser.add_argument('-l', '--password_length', default=8,
+    parser.add_argument('-l', '--password_length', default=16,
                         help='Password length')
     args = parser.parse_args()
 
