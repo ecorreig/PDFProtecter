@@ -30,21 +30,20 @@ class SetPasswords:
             print(f"File {filename} is already encrypted, skipping it")
             return f"{filename} -------> Already encrypted"
 
-        # Write output
-        output_ = PyPDF2.PdfFileWriter()
-        for page in input_.pages:
-            output_.addPage(page)
+        # Create output PDF
+        writer = PyPDF2.PdfFileWriter()
+        writer.cloneReaderDocumentRoot(input_)
 
-        # Create output file
+        # Create output stream
         output_file = os.path.join(path, f"temp_{filename}")
         output_stream = open(output_file, "wb")
 
         # Create and set password
         user_pass = self.create_password(self.password_length)
-        output_.encrypt(user_pass, self.mother_pass, use_128bit=True)
+        writer.encrypt(user_pass, self.mother_pass, use_128bit=True)
 
         # Close stuff
-        output_.write(output_stream)
+        writer.write(output_stream)
         output_stream.close()
 
         # Swap old and new
