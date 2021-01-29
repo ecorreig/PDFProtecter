@@ -1,3 +1,5 @@
+import logging
+
 import PyPDF2
 import os
 import shutil
@@ -6,11 +8,11 @@ import string
 
 
 class SetPasswords:
-
     def __init__(self, input_dir, mother_pass, password_length):
         self.input_dir = input_dir
         self.mother_pass = mother_pass
         self.password_length = password_length
+        self.logger = logging.getLogger("pdf_protector")
 
     @staticmethod
     def create_password(length):
@@ -23,11 +25,13 @@ class SetPasswords:
         path, filename = os.path.split(input_file)
 
         # Read file
-        input_ = PyPDF2.PdfFileReader(open(os.path.join(self.input_dir, input_file), "rb"))
+        input_ = PyPDF2.PdfFileReader(
+            open(os.path.join(self.input_dir, input_file), "rb")
+        )
 
         # Skip if already encrypted
         if input_.isEncrypted:
-            print(f"File {filename} is already encrypted, skipping it")
+            self.logger.warning(f"File {filename} is already encrypted, skipping it")
             return f"{filename} -------> Already encrypted"
 
         # Create output PDF
@@ -64,5 +68,5 @@ class SetPasswords:
     def export_passwords(self, pws):
         # Export passwords in a text file
         file_name = os.path.split(self.input_dir)[-1]
-        with open(os.path.join(self.input_dir, f"{file_name}.txt"), 'a') as file:
+        with open(os.path.join(self.input_dir, f"{file_name}.txt"), "a") as file:
             file.writelines(pws)
